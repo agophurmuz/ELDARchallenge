@@ -1,4 +1,4 @@
-package com.example.api;
+package com.example.api.consoleApp;
 
 import com.example.api.application.RateService;
 import com.example.api.domain.Brand;
