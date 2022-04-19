@@ -1,6 +1,12 @@
 package com.example.api.domain;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
@@ -9,17 +15,26 @@ public class CreditCard {
 
     private static final DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy/MM/dd");
 
+    private int id;
     private Brand brand;
     private String cardNumber;
     private CardHolder cardHolder;
+    @JsonDeserialize(using = LocalDateDeserializer.class)
+    @JsonSerialize(using = LocalDateSerializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate expirationDate;
 
-    public CreditCard(final  Brand brand, final String cardNumber, final CardHolder cardHolder, final LocalDate expirationDate) {
+    public CreditCard() {
+    }
+
+    public CreditCard(final int id, final  Brand brand, final String cardNumber, final CardHolder cardHolder, final LocalDate expirationDate) {
+        this.id = id;
         this.brand = brand;
         this.cardNumber = cardNumber;
         this.cardHolder = cardHolder;
         this.expirationDate = expirationDate;
     }
+
     public String getCardInfo() {
         return "Brand: " + brand + ", Card Number: " + cardNumber + " " + cardHolder.toString() +
                 ", Expiration Date: " + dateFormat.format(expirationDate);
@@ -50,5 +65,26 @@ public class CreditCard {
     @Override
     public int hashCode() {
         return Objects.hash(brand, cardNumber);
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setBrand(Brand brand) {
+        this.brand = brand;
+    }
+
+    public void setCardNumber(String cardNumber) {
+        this.cardNumber = cardNumber;
+    }
+
+    public void setCardHolder(CardHolder cardHolder) {
+        this.cardHolder = cardHolder;
+    }
+
+
+    public void setExpirationDate(LocalDate expirationDate) {
+        this.expirationDate = expirationDate;
     }
 }
