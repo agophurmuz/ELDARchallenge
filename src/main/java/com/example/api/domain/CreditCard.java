@@ -26,11 +26,16 @@ public class CreditCard {
     }
 
     public boolean validOperation (final double cant) {
-        return validCardToOperate() && cant < 1000.0;
+        if(validCardToOperate() && cant < 1000.0)
+            return true;
+        throw new IllegalArgumentException("Not valid amount to operate");
     }
 
+
     public boolean validCardToOperate() {
-        return (expirationDate.compareTo(LocalDate.now())) > 0;
+        if ((expirationDate.compareTo(LocalDate.now())) > 0)
+            return true;
+        throw new IllegalArgumentException("Not valid card to operate");
     }
 
     @Override
